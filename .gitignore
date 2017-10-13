@@ -1,0 +1,14 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+.gradle
+build
+out
+target
+
+*.class
+*.jar
+*.iml
+src/main/resources/log4j2.xml
+#src/main/resources/config.json
+
+!gradle-wrapper.jar
