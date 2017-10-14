@@ -1,6 +1,13 @@
 package com.github.silmeth.json
 
-import com.github.h0tk3y.betterParse.combinators.*
+import com.github.h0tk3y.betterParse.combinators.and
+import com.github.h0tk3y.betterParse.combinators.asJust
+import com.github.h0tk3y.betterParse.combinators.map
+import com.github.h0tk3y.betterParse.combinators.optional
+import com.github.h0tk3y.betterParse.combinators.or
+import com.github.h0tk3y.betterParse.combinators.separated
+import com.github.h0tk3y.betterParse.combinators.unaryMinus
+import com.github.h0tk3y.betterParse.combinators.use
 import com.github.h0tk3y.betterParse.grammar.Grammar
 import com.github.h0tk3y.betterParse.grammar.parser
 import com.github.h0tk3y.betterParse.parser.Parser
@@ -66,15 +73,15 @@ object SimpleJsonGrammar : Grammar<Any?>() {
             .map { (m, num) -> if (m != null) -num else num }
 
     private val jsonPrimitiveValue: Parser<Any?> = jsonNull or jsonBool or string or number
-    private val jsonObject: Parser<Map<String, Any?>> = (skip(openingBrace) and
-            separated(string and skip(colon) and parser(this::jsonValue), comma, true) and
-            skip(closingBrace))
+    private val jsonObject: Parser<Map<String, Any?>> = (-openingBrace and
+            separated(string and -colon and parser(this::jsonValue), comma, true) and
+            -closingBrace)
             .map {
                 it.terms.map { (key, v) -> Pair(key, v) }.toMap()
             }
-    private val jsonArray: Parser<List<Any?>> = (skip(openingBracket) and
+    private val jsonArray: Parser<List<Any?>> = (-openingBracket and
             separated(parser(this::jsonValue), comma, true) and
-            skip(closingBracket))
+            -closingBracket)
             .map { it.terms }
     private val jsonValue: Parser<Any?> = jsonPrimitiveValue or jsonObject or jsonArray
     override val rootParser = jsonValue
