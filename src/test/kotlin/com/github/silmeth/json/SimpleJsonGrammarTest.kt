@@ -41,7 +41,7 @@ internal class SimpleJsonGrammarTest {
             }
         """.trimIndent()
 
-        val expected = mapOf(Pair("boolField", true), Pair("numField", 33.25), Pair("string", "is a string"))
+        val expected = mapOf("boolField" to true, "numField" to 33.25, "string" to "is a string")
         assertEquals(expected, SimpleJsonGrammar.parseToEnd(json))
     }
 
@@ -83,21 +83,21 @@ internal class SimpleJsonGrammarTest {
         """.trimIndent()
 
         val expected = mapOf(
-                Pair("Image", mapOf(
-                        Pair("Width", 800.0),
-                        Pair("Height", 600.0),
-                        Pair("Title", "View from 15th Floor"),
-                        Pair("Thumbnail", mapOf(
-                                Pair("Url", "http://www.example.com/image/481989943"),
-                                Pair("Height", 125.0),
-                                Pair("Width", 100.0),
-                                Pair("Visible", true)
-                        )),
-                        Pair("Animated", false),
-                        Pair("IDs", listOf(116.0, -943.0, 234.0, 38793.0))
-                )),
-                Pair("Escaped characters", "\n\r\"\t\\"),
-                Pair("Non-escaped unicode characters", "Ążćřǫ × 38.0e5¹²³")
+                "Image" to mapOf(
+                        "Width" to 800.0,
+                        "Height" to 600.0,
+                        "Title" to "View from 15th Floor",
+                        "Thumbnail" to mapOf(
+                                "Url" to "http://www.example.com/image/481989943",
+                                "Height" to 125.0,
+                                "Width" to 100.0,
+                                "Visible" to true
+                        ),
+                        "Animated" to false,
+                        "IDs" to listOf(116.0, -943.0, 234.0, 38793.0)
+                ),
+                "Escaped characters" to "\n\r\"\t\\",
+                "Non-escaped unicode characters" to "Ążćřǫ × 38.0e5¹²³"
         )
 
         assertEquals(expected, SimpleJsonGrammar.parseToEnd(json))
