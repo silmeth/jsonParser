@@ -4,7 +4,7 @@ version '0.1'
 buildscript {
     ext {
         kotlin_version = "1.1.51"
-        better_parse_ver = "0.2.1"
+        better_parse_ver = "0.3.1"
         junit_platform_ver = "1.0.1"
         junit_ver = "5.0.1"
     }
